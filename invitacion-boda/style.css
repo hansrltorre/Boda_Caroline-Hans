@@ -315,8 +315,10 @@ h1,h2,h3{
 }
 
 .dresscode img{
-  width:250px;
-  margin:30px 0;
+  width:75px;
+  height:auto;
+  margin:20px auto;
+  display:block;
   border-radius:20px;
 }
 

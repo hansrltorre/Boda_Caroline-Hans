@@ -7,6 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
   
   <style>
     * {
@@ -365,6 +366,24 @@
       .event-checkboxes { gap: 15px; }
       .checkbox-item { padding: 8px 16px; }
     }
+    /* Dress Code specific overrides to ensure centering and smaller size */
+    .card.wp11 .dresscode {
+      text-align: center;
+    }
+    .card.wp11 .dresscode img {
+      width: 75px;
+      height: auto;
+      margin: 12px auto;
+      display: block;
+      border-radius: 12px;
+    }
+    @media (max-width: 480px) {
+      .card.wp11 .dresscode img {
+        width: 48px;
+        margin: 8px auto;
+      }
+      .card.wp11 .dresscode { text-align:center; }
+    }
   </style>
 </head>
 <body>
@@ -422,9 +441,9 @@
     <div class="container">
       <h2>Nuestra Agenda</h2>
       <div class="cards">
-        <div class="card"><h3>Cena Rompehielos</h3><p>27 de noviembre, 6:00 pm<br>BV Hotel Atlixco, terraza junto a la alberca</p><p>Convivir y comenzar la celebración</p></div>
-        <div class="card"><h3>Nuestra Ceremonia</h3><p>28 de noviembre, 5:00 pm<br>Jardín del Árbol</p><p>El momento más significativo</p></div>
-        <div class="card"><h3>Nuestra Recepción</h3><p>28 de noviembre<br>Salón Jardín Ámate</p><p>Celebración hasta las 3:00 am</p></div>
+        <div class="card wp1"><h3>Cena Rompehielos</h3><p>27 de noviembre, 6:00 pm<br>BV Hotel Atlixco, terraza junto a la alberca</p><p>La cena comenzará a las 18:00 horas, en la terraza junto a la alberca y será coordinada por el hotel sede (con costo adicional de $300p/p).</p><p>Convivir y comenzar la celebración</p></div>
+        <div class="card wp2"><h3>Nuestra Ceremonia</h3><p>28 de noviembre, 5:00 pm<br>Jardín del Árbol</p><p>El momento más significativo</p></div>
+        <div class="card wp3"><h3>Nuestra Recepción</h3><p>28 de noviembre<br>Salón Jardín Ámate</p><p>Celebración hasta las 3:00 am</p></div>
       </div>
       <div style="text-align: center; margin-top: 30px;">
         <button id="openAgendaModalBtn" class="btn" style="background:#b6846e;">📋 Agenda detallada</button>
@@ -432,7 +451,7 @@
     </div>
   </section>
 
-  <section class="story">
+  <section class="story wp4">
     <div class="container">
       <h2>Nuestra Historia</h2>
       <p>Ambos llegaron, por distintos motivos, a la misma ciudad en agosto de 2018, sin imaginar lo que el destino tenía preparado.</p>
@@ -443,20 +462,26 @@
   </section>
 
   <section class="gallery">
-    <img src="img/pareja2.jpeg" alt="Pareja 2">
-    <img src="img/pareja3.jpg" alt="Pareja 3">
-    <img src="img/pareja4.jpg" alt="Pareja 4">
-    <img src="img/portada.jpg" alt="Portada">
+    <img src="img/pareja2.jpeg" alt="Pareja 2" class="wp5">
+    <img src="img/pareja3.jpg" alt="Pareja 3" class="wp6">
+    <img src="img/pareja4.jpg" alt="Pareja 4" class="wp7">
+    <img src="img/portada.jpg" alt="Portada" class="wp8">
   </section>
 
   <section class="info-section">
     <div class="container">
       <h2>Información para Invitados</h2>
       <div class="cards">
-        <div class="card"><h3>Alojamiento</h3><p>Hotel BV Atlixco<br>Tel: 244 446 9200</p><p>Código: Boda Caroline & Hans</p></div>
-        <div class="card"><h3>Ubicación</h3><p>BV Hotel Atlixco<br>Carretera Federal Puebla-Izúcar de Matamoros Km 27.5, Atlixco, Pue.</p><a href="https://www.google.com/maps/place/BV+Hotel+Atlixco/@18.924374,-98.4132005,17z" target="_blank" class="btn" style="margin-top:10px;">Ver en Maps</a></div>
-        <div class="card"><h3>Vestimenta</h3><p>Rompehielos: Libre<br>Ceremonia y Recepción: Formal</p></div>
-        <div class="card"><h3>Regalos</h3><p>Su presencia es lo más importante para nosotros.<p></p>
+        <div class="card wp9"><h3>Alojamiento</h3><p>Hotel BV Atlixco<br>Tel: 244 446 9200</p><p>Código: Boda Caroline & Hans</p><p style="margin-top:16px; font-size:0.98rem; color:#5b4e46;">Recuerda indicar en caso que quieras unirte a la cena rompehielos.</p></div>
+        <div class="card wp10"><h3>Ubicación</h3><p>BV Hotel Atlixco<br>Carretera Federal Puebla-Izúcar de Matamoros Km 27.5, Atlixco, Pue.</p><a href="https://www.google.com/maps/place/BV+Hotel+Atlixco/@18.924374,-98.4132005,17z" target="_blank" class="btn" style="margin-top:10px;">Ver en Maps</a></div>
+        <div class="card wp11">
+          <h3>Vestimenta</h3>
+          <p>Rompehielos: Libre<br>Ceremonia y Recepción: Formal</p>
+          <div class="dresscode">
+            <img src="img/Dress Code.jpg" alt="Dress Code" />
+          </div>
+        </div>
+        <div class="card wp12"><h3>Regalos</h3><p>Su presencia es lo más importante para nosotros.<p></p>
 Cualquier otro detalle que nazca de su generosidad y corazón será recibido con mucho agradecimiento, y podrán hacerlo mediante un depósito a la siguiente cuenta:<br>Clabe (Nu): 638180010165682124 <br>A Nombre de (Boda Caro&Hans) </p></div>
       </div>
     </div>
@@ -466,7 +491,7 @@ Cualquier otro detalle que nazca de su generosidad y corazón será recibido con
     <div class="container">
       <h2>Confirmación de Asistencia</h2>
       <p style="text-align: center; max-width: 700px; margin: 0 auto 20px;">Selecciona los eventos (puedes marcar uno o ambos), completa tus datos y confirma.</p>
-      <<p><h3>Te Pedimos que hagas tu confirmación lo antes posible.</h3></p>
+      <h2 style="text-align: center; max-width: 700px; margin: 0 auto 20px;">Te Pedimos que hagas tu confirmación lo antes posible.</h2>
       
       <div class="event-checkboxes">
         <div class="checkbox-item" id="icebreakerCheckbox">
@@ -497,6 +522,11 @@ Cualquier otro detalle que nazca de su generosidad y corazón será recibido con
   <footer>
     <img src="img/pie.jpg" alt="Caroline y Hans">
   </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
+  <script src="script.js"></script>
+</body>
 
   <script>
     // =========================
