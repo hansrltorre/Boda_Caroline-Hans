@@ -1,0 +1,382 @@
+.rsvp-list {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.rsvp-item {
+  background: #f9f7f3;
+  border-radius: 18px;
+  box-shadow: 0 4px 18px rgba(122,92,62,0.08);
+  padding: 28px 22px 22px 22px;
+  min-width: 220px;
+  max-width: 320px;
+  text-align: center;
+}
+.rsvp-item h3 {
+  color: #a88c6b;
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+}
+.rsvp-item p {
+  color: #4d3c2a;
+  margin-bottom: 16px;
+  font-size: 1.05rem;
+}
+/* Modal Agenda */
+.modal-agenda {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  transition: opacity 0.3s;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(122,92,62,0.18);
+  padding: 36px 28px 28px 28px;
+  max-width: 480px;
+  width: 92vw;
+  position: relative;
+  animation: modalIn 0.35s cubic-bezier(.4,1.6,.6,1) both;
+}
+
+@keyframes modalIn {
+  from { transform: translateY(60px) scale(0.95); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.close-modal {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #7a5c3e;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close-modal:hover {
+  color: #a88c6b;
+}
+
+.modal-content h2 {
+  margin-bottom: 30px;
+  color: #7a5c3e;
+  font-size: 40px;
+}
+.modal-section {
+  margin-bottom: 22px;
+}
+.modal-section h3 {
+  color: #a88c6b;
+  margin-bottom: 6px;
+  font-size: 1.2rem;
+}
+.modal-section p {
+  color: #4d3c2a;
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+
+body{
+  font-family:'Montserrat',sans-serif;
+  background:#f9f7f3;
+  color:#2d2d2d;
+}
+
+
+h1,h2,h3{
+  font-family:'Cormorant Garamond',serif;
+  color:#7a5c3e;
+  letter-spacing:1px;
+}
+
+
+.container{
+  width:92%;
+  max-width:950px;
+  margin:auto;
+}
+
+
+.hero{
+  min-height:90vh;
+  background:linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.7)),url('img/portada.jpg') center/cover no-repeat;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+
+.overlay{
+  background:rgba(255,255,255,0.85);
+  border-radius:30px;
+  box-shadow:0 8px 32px rgba(0,0,0,0.10);
+  padding:40px 20px 30px 20px;
+  max-width:500px;
+  margin:40px auto;
+  text-align:center;
+  color:#7a5c3e;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+
+.overlay h3{
+  font-size:1.5rem;
+  font-weight:400;
+  margin-bottom:10px;
+}
+
+
+.overlay h1{
+  font-size:3.2rem;
+  margin:10px 0 0 0;
+  color:#7a5c3e;
+}
+
+
+.overlay p{
+  font-size:1.1rem;
+  color:#4d3c2a;
+  margin:10px 0 0 0;
+  letter-spacing:0.5px;
+}
+
+
+.btn{
+  margin-top:30px;
+  padding:12px 32px;
+  background:#7a5c3e;
+  color:#fff;
+  text-decoration:none;
+  border-radius:30px;
+  font-size:1.1rem;
+  font-family:'Montserrat',sans-serif;
+  letter-spacing:1px;
+  box-shadow:0 2px 8px rgba(122,92,62,0.08);
+  transition:.3s;
+  border:none;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#a88c6b;
+  color:#fff;
+  transform:scale(1.04);
+}
+
+
+/* Agenda y tarjetas */
+.agenda-section, .info-section, .story, .rsvp {
+  padding:80px 0 60px 0;
+  background:#fff;
+  margin-bottom:30px;
+}
+
+.agenda-section h2, .info-section h2, .story h2, .rsvp h2 {
+  font-size:2.5rem;
+  margin-bottom:30px;
+}
+
+.cards{
+  display:flex;
+  gap:30px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:30px;
+}
+
+.card{
+  background:#f9f7f3;
+  padding:32px 24px;
+  border-radius:18px;
+  width:300px;
+  box-shadow:0 4px 18px rgba(122,92,62,0.08);
+  text-align:left;
+  color:#4d3c2a;
+  font-size:1.08rem;
+  margin-bottom:20px;
+}
+
+.card h3{
+  margin-bottom:14px;
+  font-size:1.4rem;
+  color:#7a5c3e;
+}
+
+.card a{
+  color:#7a5c3e;
+  text-decoration:underline;
+  font-weight:500;
+}
+
+.story p {
+  max-width:700px;
+  margin:18px auto;
+  line-height:1.7;
+  color:#4d3c2a;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:18px;
+  background:#f9f7f3;
+  padding:40px 0;
+}
+
+.gallery img{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow:0 2px 12px rgba(122,92,62,0.07);
+}
+
+.story,
+.event,
+.gifts,
+.rsvp,
+.dresscode{
+  padding:100px 20px;
+  text-align:center;
+}
+
+.story p,
+.gifts p,
+.rsvp p{
+  max-width:700px;
+  margin:20px auto;
+  line-height:1.8;
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+}
+
+.gallery img{
+  width:100%;
+  height:350px;
+  object-fit:cover;
+}
+
+.cards{
+  display:flex;
+  gap:30px;
+  flex-wrap:wrap;
+  justify-content:center;
+  margin-top:50px;
+}
+
+.card{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  width:300px;
+  box-shadow:0 10px 30px rgba(0,0,0,.08);
+}
+
+.card h3{
+  margin-bottom:20px;
+  font-size:2rem;
+}
+
+.card a{
+  display:inline-block;
+  margin-top:20px;
+  text-decoration:none;
+  color:#000;
+  font-weight:bold;
+}
+
+.dresscode img{
+  width:250px;
+  margin:30px 0;
+  border-radius:20px;
+}
+
+.gift-box{
+  margin-top:30px;
+  background:white;
+  display:inline-block;
+  padding:30px;
+  border-radius:20px;
+}
+
+
+footer{
+  padding:30px 0 20px 0;
+  text-align:center;
+  background:#7a5c3e;
+  color:#fff;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;
+  letter-spacing:1px;
+}
+
+
+
+.music-toggle {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2100;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(122,92,62,0.13);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  color: #7a5c3e;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+}
+.music-toggle:hover {
+  background: #f9f7f3;
+  color: #a88c6b;
+  box-shadow: 0 4px 16px rgba(122,92,62,0.18);
+}
+
+
+@media(max-width:900px){
+  .cards{
+    flex-direction:column;
+    align-items:center;
+  }
+  .card{
+    width:90%;
+    min-width:220px;
+  }
+  .overlay{
+    max-width:95vw;
+  }
+}

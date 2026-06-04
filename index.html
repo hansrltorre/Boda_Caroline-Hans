@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Caroline & Hans | Nuestra Boda</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #fefaf5;
+      font-family: 'Montserrat', sans-serif;
+      color: #3e2c2b;
+    }
+    h1, h2, h3, .card h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f3e9de 0%, #f5ede3 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .overlay {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero img {
+      max-width: 160px;
+      border-radius: 50%;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.2);
+      border: 4px solid #fff;
+      object-fit: cover;
+      width: 160px;
+      height: 160px;
+    }
+    .hero h1,
+    .hero h2,
+    .countdown-section h2,
+    .countdown span {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 700;
+      font-size: 2.8rem;
+      color: #9b6a5c;
+    }
+    .hero h1 {
+      margin-top: 20px;
+    }
+    .hero h3 {
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: #b28b7a;
+    }
+    .hero p {
+      max-width: 700px;
+      margin: 20px auto;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #4f3a35;
+    }
+    .countdown-section {
+      background: rgba(255, 245, 235, 0.8);
+      border-radius: 60px;
+      padding: 20px 16px;
+      display: inline-block;
+      margin-top: 20px;
+    }
+    .countdown {
+      display: flex;
+      gap: 28px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .countdown div {
+      text-align: center;
+      background: #fff5ef;
+      border-radius: 28px;
+      padding: 12px 18px;
+      min-width: 80px;
+    }
+    .countdown p {
+      font-size: 0.8rem;
+    }
+    .music-toggle {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: #fff1e8;
+      border: 1px solid #d9bfb0;
+      color: #9b6a5c;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
+    }
+    .music-toggle:hover {
+      transform: scale(1.05);
+      background: #f3e3d8;
+    }
+    .modal-agenda {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+    .modal-content {
+      background: #fffcf9;
+      max-width: 550px;
+      width: 90%;
+      border-radius: 32px;
+      padding: 32px 28px;
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+    .close-modal {
+      position: absolute;
+      top: 16px;
+      right: 22px;
+      font-size: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #aa7b68;
+    }
+    .modal-section {
+      margin-bottom: 28px;
+      border-left: 3px solid #e4cdbe;
+      padding-left: 18px;
+    }
+    .agenda-section {
+      padding: 80px 0;
+      background: #fffaf5;
+    }
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-top: 40px;
+    }
+    .card {
+      background: white;
+      border-radius: 28px;
+      padding: 28px 24px;
+      flex: 1 1 280px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+      border: 1px solid #f0e2d8;
+    }
+    .card h3 {
+      font-size: 1.7rem;
+      color: #a16c5a;
+    }
+    .story {
+      background: #f5ede6;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .story p {
+      max-width: 800px;
+      margin: 16px auto;
+      font-size: 1.1rem;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      background: #fefaf5;
+      padding: 40px 12px;
+      justify-content: center;
+    }
+    .gallery img {
+      width: 240px;
+      height: 260px;
+      object-fit: cover;
+      border-radius: 28px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.02);
+    }
+    .info-section {
+      background: #fffaf5;
+      padding: 60px 0;
+    }
+    .btn {
+      display: inline-block;
+      background: #c7957f;
+      color: white;
+      padding: 10px 22px;
+      border-radius: 40px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+    .btn:hover {
+      background: #b07b64;
+    }
+    .rsvp {
+      background: #f7efe8;
+      padding: 70px 0;
+    }
+    footer {
+      background: none;
+      padding: 30px 0 10px 0;
+      text-align: center;
+    }
+    footer img {
+      width: 80px;
+      height: auto;
+      display: inline-block;
+      opacity: 0.85;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    #rsvpForm {
+      max-width: 600px;
+      margin: 30px auto 0;
+      background: white;
+      padding: 36px 32px;
+      border-radius: 32px;
+      box-shadow: 0 12px 28px rgba(0,0,0,0.08);
+      border: 1px solid #f0e2d8;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    #rsvpForm input,
+    #rsvpForm select,
+    #rsvpForm textarea {
+      font-family: 'Montserrat', sans-serif;
+      padding: 14px 18px;
+      border: 1px solid #e2d4cc;
+      border-radius: 60px;
+      font-size: 1rem;
+      background: #fffefc;
+      transition: all 0.2s ease;
+    }
+    #rsvpForm textarea {
+      border-radius: 28px;
+      resize: vertical;
+      min-height: 80px;
+    }
+    #rsvpForm input:focus,
+    #rsvpForm select:focus,
+    #rsvpForm textarea:focus {
+      outline: none;
+      border-color: #c7957f;
+      box-shadow: 0 0 0 3px rgba(199, 149, 127, 0.2);
+    }
+    #rsvpForm button {
+      background: #c7957f;
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      font-family: 'Montserrat', sans-serif;
+    }
+    #rsvpForm button:hover:not(:disabled) {
+      background: #b07b64;
+    }
+    #rsvpForm button:disabled {
+      background: #d4bcb0;
+      cursor: not-allowed;
+    }
+    .form-message {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: 500;
+      padding: 12px;
+      border-radius: 60px;
+      background: #f0e9e4;
+    }
+    .event-checkboxes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #fff5ef;
+      border-radius: 28px;
+    }
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      padding: 10px 20px;
+      background: white;
+      border-radius: 60px;
+      transition: all 0.2s ease;
+      border: 2px solid #e2d4cc;
+    }
+    .checkbox-item:hover {
+      border-color: #c7957f;
+      transform: translateY(-2px);
+    }
+    .checkbox-item input {
+      width: 22px;
+      height: 22px;
+      cursor: pointer;
+      accent-color: #c7957f;
+    }
+    .checkbox-item label {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      color: #3e2c2b;
+    }
+    .checkbox-item.checked {
+      border-color: #2a6b47;
+      background: #e8f0e8;
+    }
+    .loader {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (max-width: 700px) {
+      .hero h1 { font-size: 2.6rem; }
+      .countdown div { min-width: 65px; padding: 8px 12px; }
+      .countdown span { font-size: 1.8rem; }
+      .gallery img { width: 170px; height: 200px; }
+      #rsvpForm { padding: 24px 20px; }
+      .event-checkboxes { gap: 15px; }
+      .checkbox-item { padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Música con reproducción automática forzada -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music/song.mp3.mp3" type="audio/mpeg">
+  </audio>
+  <button id="musicToggle" class="music-toggle" aria-label="Reproducir música">
+    <span id="musicIcon">▶</span>
+  </button>
+
+  <section class="hero">
+    <div class="overlay">
+      <img src="img/portada.jpg" alt="Boda Caroline & Hans" style="max-width:180px; border-radius:50%; margin-bottom:20px;">
+      <h1>Caroline & Hans</h1>
+      <h3>Nuestra Unión</h3>
+      <p>Hay momentos en la vida que se vuelven eternos, y este es uno de ellos.<br>Nos encantaría que nos acompañaran a celebrar el amor que nos une.</p>
+      <h2 style="margin:20px 0 0 0;">Noviembre 27 & 28, 2026</h2>
+      <section class="countdown-section" id="countdown" style="margin-top:30px;">
+        <h2>Faltan</h2>
+        <div class="countdown">
+          <div><span id="days">00</span><p>Días</p></div>
+          <div><span id="hours">00</span><p>Horas</p></div>
+          <div><span id="minutes">00</span><p>Minutos</p></div>
+          <div><span id="seconds">00</span><p>Segundos</p></div>
+        </div>
+      </section>
+      
+      <div id="agendaModal" class="modal-agenda" style="display:none;">
+        <div class="modal-content">
+          <button class="close-modal" id="closeAgendaModal">&times;</button>
+          <h2>Agenda Detallada</h2>
+          <div class="modal-section">
+            <h3>Cena Rompehielos</h3>
+            <p>27 de noviembre, 6:00 pm<br>BV Hotel Atlixco, terraza junto a la alberca</p>
+            <p>Una cena pensada para convivir y dar comienzo a este fin de semana tan especial.</p>
+          </div>
+          <div class="modal-section">
+            <h3>Nuestra Ceremonia</h3>
+            <p>28 de noviembre, 5:00 pm<br>Jardín del Árbol, BV Hotel Atlixco</p>
+            <p>La ceremonia dará inicio a las 5:00 pm, seguida de un brindis íntimo.</p>
+          </div>
+          <div class="modal-section">
+            <h3>Nuestra Recepción</h3>
+            <p>28 de noviembre, después de la ceremonia<br>Salón de Eventos Jardín Ámate</p>
+            <p>La celebración se extiende hasta las 3:00 am. ¡A disfrutar juntos!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="agenda-section">
+    <div class="container">
+      <h2>Nuestra Agenda</h2>
+      <div class="cards">
+        <div class="card"><h3>Cena Rompehielos</h3><p>27 de noviembre, 6:00 pm<br>BV Hotel Atlixco, terraza junto a la alberca</p><p>Convivir y comenzar la celebración</p></div>
+        <div class="card"><h3>Nuestra Ceremonia</h3><p>28 de noviembre, 5:00 pm<br>Jardín del Árbol</p><p>El momento más significativo</p></div>
+        <div class="card"><h3>Nuestra Recepción</h3><p>28 de noviembre<br>Salón Jardín Ámate</p><p>Celebración hasta las 3:00 am</p></div>
+      </div>
+      <div style="text-align: center; margin-top: 30px;">
+        <button id="openAgendaModalBtn" class="btn" style="background:#b6846e;">📋 Agenda detallada</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="story">
+    <div class="container">
+      <h2>Nuestra Historia</h2>
+      <p>Ambos llegaron, por distintos motivos, a la misma ciudad en agosto de 2018, sin imaginar lo que el destino tenía preparado.</p>
+      <p>No fue sino hasta finales de 2021 cuando decidieron verse por primera vez… y bastó ese momento para que, en ambos, algo hiciera clic.</p>
+      <p>En 2022 comenzaron a construir algo que no solo se trataba de compartir tiempo, sino de compartir vida: espacios, amigos, familia y recuerdos que, poco a poco, se volvieron parte de algo mucho más grande.</p>
+      <p>Y en 2025, ambos dijeron "sí"… sí a elegirse todos los días, incluso en los momentos más simples, sí a formar una familia, sí a construir juntos el futuro que sueñan, y sí a seguir creciendo, acompañándose en cada paso, ahora y siempre.</p>
+    </div>
+  </section>
+
+  <section class="gallery">
+    <img src="img/pareja2.jpeg" alt="Pareja 2">
+    <img src="img/pareja3.jpg" alt="Pareja 3">
+    <img src="img/pareja4.jpg" alt="Pareja 4">
+    <img src="img/portada.jpg" alt="Portada">
+  </section>
+
+  <section class="info-section">
+    <div class="container">
+      <h2>Información para Invitados</h2>
+      <div class="cards">
+        <div class="card"><h3>Alojamiento</h3><p>Hotel BV Atlixco<br>Tel: 244 446 9200</p><p>Código: Boda Caroline & Hans</p></div>
+        <div class="card"><h3>Ubicación</h3><p>BV Hotel Atlixco<br>Carretera Federal Puebla-Izúcar de Matamoros Km 27.5, Atlixco, Pue.</p><a href="https://www.google.com/maps/place/BV+Hotel+Atlixco/@18.924374,-98.4132005,17z" target="_blank" class="btn" style="margin-top:10px;">Ver en Maps</a></div>
+        <div class="card"><h3>Vestimenta</h3><p>Rompehielos: Libre<br>Ceremonia y Recepción: Formal</p></div>
+        <div class="card"><h3>Regalos</h3><p>Su presencia es lo más importante para nosotros.<p></p>
+Cualquier otro detalle que nazca de su generosidad y corazón será recibido con mucho agradecimiento, y podrán hacerlo mediante un depósito a la siguiente cuenta:<br>Clabe (Nu): 638180010165682124 <br>A Nombre de (Boda Caro&Hans) </p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rsvp">
+    <div class="container">
+      <h2>Confirmación de Asistencia</h2>
+      <p style="text-align: center; max-width: 700px; margin: 0 auto 20px;">Selecciona los eventos (puedes marcar uno o ambos), completa tus datos y confirma.</p>
+      <<p><h3>Te Pedimos que hagas tu confirmación lo antes posible.</h3></p>
+      
+      <div class="event-checkboxes">
+        <div class="checkbox-item" id="icebreakerCheckbox">
+          <input type="checkbox" id="rompehielosCheck">
+          <label for="rompehielosCheck">🍽️ Cena Rompehielos (27 nov, 6:00 pm)</label>
+        </div>
+        <div class="checkbox-item" id="weddingCheckbox">
+          <input type="checkbox" id="bodaCheck">
+          <label for="bodaCheck">💒 Ceremonia y Recepción (28 nov, 5:00 pm)</label>
+        </div>
+      </div>
+
+      <form id="rsvpForm">
+        <input type="text" id="nombre" placeholder="Nombre completo" required />
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="tel" id="telefono" placeholder="Teléfono (opcional)" />
+        <select id="asistencia">
+          <option value="Sí asistiré">Sí asistiré</option>
+          <option value="No podré asistir">No podré asistir</option>
+        </select>
+        <textarea id="alergias" placeholder="Alergias o restricciones alimenticias (opcional)"></textarea>
+        <button type="submit" id="submitBtn">Confirmar reservación</button>
+      </form>
+      <div id="formStatus" class="form-message" style="display: none;"></div>
+    </div>
+  </section>
+
+  <footer>
+    <img src="img/pie.jpg" alt="Caroline y Hans">
+  </footer>
+
+  <script>
+    // =========================
+    // MÚSICA - REPRODUCCIÓN AUTOMÁTICA GARANTIZADA
+    // =========================
+    const music = document.getElementById('bgMusic');
+    const musicToggle = document.getElementById('musicToggle');
+    const musicIcon = document.getElementById('musicIcon');
+    let musicStarted = false;
+
+    function forceAutoPlay() {
+      if (!music) return;
+      
+      const playPromise = music.play();
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicStarted = true;
+          musicIcon.innerHTML = '⏸';
+          musicToggle.setAttribute('aria-label', 'Pausar música');
+          console.log('🎵 Música iniciada automáticamente');
+        }).catch((error) => {
+          console.log('Autoreproducción bloqueada:', error);
+          musicIcon.innerHTML = '▶';
+          musicToggle.setAttribute('aria-label', 'Reproducir música');
+          
+          const startMusic = function() {
+            music.play().then(() => {
+              musicStarted = true;
+              musicIcon.innerHTML = '⏸';
+              musicToggle.setAttribute('aria-label', 'Pausar música');
+            }).catch(e => console.log('Error al reproducir'));
+            document.removeEventListener('click', startMusic);
+            document.removeEventListener('touchstart', startMusic);
+          };
+          
+          document.addEventListener('click', startMusic);
+          document.addEventListener('touchstart', startMusic);
+        });
+      }
+    }
+
+    forceAutoPlay();
+
+    if (musicToggle && music) {
+      musicToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (music.paused) {
+          music.play().then(() => {
+            musicStarted = true;
+            musicIcon.innerHTML = '⏸';
+            musicToggle.setAttribute('aria-label', 'Pausar música');
+          }).catch(err => console.log('Error:', err));
+        } else {
+          music.pause();
+          musicIcon.innerHTML = '▶';
+          musicToggle.setAttribute('aria-label', 'Reproducir música');
+        }
+      });
+    }
+
+    if (music) {
+      music.addEventListener('play', () => {
+        musicIcon.innerHTML = '⏸';
+        musicToggle.setAttribute('aria-label', 'Pausar música');
+      });
+      music.addEventListener('pause', () => {
+        musicIcon.innerHTML = '▶';
+        musicToggle.setAttribute('aria-label', 'Reproducir música');
+      });
+    }
+
+    // =========================
+    // MODAL AGENDA
+    // =========================
+    const openAgendaBtn = document.getElementById('openAgendaModalBtn');
+    const agendaModal = document.getElementById('agendaModal');
+    const closeAgendaBtn = document.getElementById('closeAgendaModal');
+
+    if (openAgendaBtn && agendaModal && closeAgendaBtn) {
+      openAgendaBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        agendaModal.style.display = 'flex';
+      });
+      closeAgendaBtn.addEventListener('click', () => {
+        agendaModal.style.display = 'none';
+      });
+      agendaModal.addEventListener('click', (e) => {
+        if (e.target === agendaModal) agendaModal.style.display = 'none';
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && agendaModal.style.display === 'flex') {
+          agendaModal.style.display = 'none';
+        }
+      });
+    }
+
+    // =========================
+    // COUNTDOWN
+    // =========================
+    const weddingDate = new Date("Nov 27, 2026 00:00:00").getTime();
+    const timer = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+      
+      if (distance < 0) {
+        clearInterval(timer);
+        const countdownDiv = document.querySelector(".countdown");
+        if (countdownDiv) countdownDiv.innerHTML = "<h2>¡Llegó el gran día!</h2>";
+        return;
+      }
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+      document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+    }, 1000);
+
+    // =========================
+    // CHECKBOXES
+    // =========================
+    // El estilo y el envío del formulario RSVP se gestionan en script.js externo.
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
