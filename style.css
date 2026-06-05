@@ -382,3 +382,25 @@ footer{
     max-width:95vw;
   }
 }
+
+/* Ensure waypoint elements are initially hidden so animations are visible on iOS */
+.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* When Animate.css 'animated' class is added, ensure element becomes visible and uses fill-mode */
+.animated {
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-animation-fill-mode: both !important;
+  animation-fill-mode: both !important;
+}
+
+/* Provide a slight hardware-acceleration hint for Safari */
+.animated, .wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12 {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}

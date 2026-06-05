@@ -525,7 +525,15 @@ Cualquier otro detalle que nazca de su generosidad y corazón será recibido con
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/jquery.waypoints.js"></script>
-  <script src="script.js"></script>
+  <script>
+    (function () {
+      var isIOS = /iP(hone|od|ad)/.test(navigator.userAgent);
+      var scriptName = isIOS ? 'script-ios.js' : 'script-android.js';
+      var script = document.createElement('script');
+      script.src = scriptName;
+      document.head.appendChild(script);
+    })();
+  </script>
   <script>
     // =========================
     // MÚSICA - REPRODUCCIÓN AUTOMÁTICA GARANTIZADA
