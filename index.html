@@ -38,10 +38,14 @@
       justify-content: center;
       text-align: center;
       padding: 60px 20px;
+      perspective: 1200px;
+      overflow: hidden;
     }
     .overlay {
       max-width: 900px;
       margin: 0 auto;
+      transition: transform 0.25s ease-out;
+      animation: floatOverlay 8s ease-in-out infinite alternate;
     }
     .hero img {
       max-width: 160px;
@@ -51,6 +55,11 @@
       object-fit: cover;
       width: 160px;
       height: 160px;
+      transition: transform 0.25s ease-out;
+    }
+    @keyframes floatOverlay {
+      from { transform: translate3d(0, 0, 0); }
+      to { transform: translate3d(0, -12px, 0); }
     }
     .hero h1,
     .hero h2,
@@ -395,7 +404,7 @@
 <body>
 
   <!-- Música con reproducción automática forzada -->
-  <audio id="bgMusic" loop preload="auto" playsinline>
+  <audio id="bgMusic" loop preload="auto" playsinline autoplay muted>
     <source src="music/song.mp3.mp3" type="audio/mpeg">
   </audio>
   <button id="musicToggle" class="music-toggle" aria-label="Reproducir música">
@@ -620,6 +629,39 @@ Cualquier otro detalle que nazca de su generosidad y corazón será recibido con
       music.addEventListener('pause', () => {
         musicIcon.innerHTML = '▶';
         musicToggle.setAttribute('aria-label', 'Reproducir música');
+      });
+    }
+
+    // =========================
+    // MOVIMIENTO EN EL EXPLORADOR
+    // =========================
+    const heroSection = document.querySelector('.hero');
+    const heroOverlay = document.querySelector('.hero .overlay');
+    const heroImage = document.querySelector('.hero img');
+    let motionFrame = null;
+    let pointerX = 0;
+    let pointerY = 0;
+
+    function updateHeroMotion() {
+      if (!heroSection || !heroOverlay || !heroImage) return;
+      const rect = heroSection.getBoundingClientRect();
+      const offsetX = ((pointerX - rect.left) / rect.width - 0.5) * 18;
+      const offsetY = ((pointerY - rect.top) / rect.height - 0.5) * 18;
+
+      heroOverlay.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+      heroImage.style.transform = `translate3d(${offsetX * 0.4}px, ${offsetY * 0.4}px, 0) rotate(${offsetX * 0.08}deg)`;
+      motionFrame = null;
+    }
+
+    if (heroSection && heroOverlay && heroImage) {
+      heroSection.addEventListener('mousemove', (e) => {
+        pointerX = e.clientX;
+        pointerY = e.clientY;
+        if (!motionFrame) motionFrame = requestAnimationFrame(updateHeroMotion);
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        if (heroOverlay) heroOverlay.style.transform = '';
+        if (heroImage) heroImage.style.transform = '';
       });
     }
 
