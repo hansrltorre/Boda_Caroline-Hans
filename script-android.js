@@ -167,7 +167,91 @@ if (rsvpForm) {
   });
 }
 
+function initMusicAutoplay() {
+  var audio = document.getElementById('bgMusic');
+  var toggle = document.getElementById('musicToggle');
+  var icon = document.getElementById('musicIcon');
+  if (!audio || !toggle || !icon) return;
+
+  audio.loop = true;
+  audio.preload = 'auto';
+  audio.playsInline = true;
+
+  function updateMusicUI() {
+    if (audio.paused) {
+      icon.innerHTML = '▶';
+      toggle.setAttribute('aria-label', 'Reproducir música');
+    } else {
+      icon.innerHTML = '⏸';
+      toggle.setAttribute('aria-label', 'Pausar música');
+    }
+  }
+
+  function setMuted(value) {
+    try {
+      audio.muted = value;
+    } catch (e) {
+      console.warn('No se pudo cambiar silent mute', e);
+    }
+  }
+
+  function onFirstGesture() {
+    audio.play().then(function () {
+      setMuted(false);
+      updateMusicUI();
+      document.removeEventListener('click', onFirstGesture);
+      document.removeEventListener('touchstart', onFirstGesture);
+    }).catch(function (error) {
+      console.warn('Intento de reproducción tras gesto falló:', error);
+    });
+  }
+
+  function tryAutoPlay() {
+    setMuted(true);
+    var attempt = audio.play();
+    if (attempt !== undefined) {
+      attempt.then(function () {
+        updateMusicUI();
+        document.addEventListener('click', onFirstGesture, { once: true });
+        document.addEventListener('touchstart', onFirstGesture, { once: true });
+      }).catch(function (error) {
+        console.log('Autoplay bloqueado en Android:', error);
+        setMuted(true);
+        updateMusicUI();
+        document.addEventListener('click', onFirstGesture, { once: true });
+        document.addEventListener('touchstart', onFirstGesture, { once: true });
+      });
+    }
+  }
+
+  toggle.addEventListener('click', function (e) {
+    e.preventDefault();
+    if (audio.paused) {
+      audio.play().then(function () {
+        setMuted(false);
+        updateMusicUI();
+      }).catch(function (error) {
+        console.warn('Falló al reproducir desde toggle:', error);
+      });
+    } else {
+      audio.pause();
+      updateMusicUI();
+    }
+  });
+
+  audio.addEventListener('play', updateMusicUI);
+  audio.addEventListener('pause', updateMusicUI);
+  audio.addEventListener('ended', updateMusicUI);
+
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    tryAutoPlay();
+  } else {
+    document.addEventListener('DOMContentLoaded', tryAutoPlay);
+  }
+}
+
 $(document).ready(function () {
+  initMusicAutoplay();
   var waypointMap = [
     { sel: '.wp1', anim: 'fadeInLeft' },
     { sel: '.wp2', anim: 'fadeInUp' },
