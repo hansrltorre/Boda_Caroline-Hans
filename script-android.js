@@ -175,7 +175,9 @@ function initMusicAutoplay() {
 
   audio.loop = true;
   audio.preload = 'auto';
-  audio.playsInline = true;
+  audio.setAttribute('playsinline', '');
+  audio.setAttribute('webkit-playsinline', '');
+  audio.volume = 1;
 
   function updateMusicUI() {
     if (audio.paused) {
@@ -196,18 +198,24 @@ function initMusicAutoplay() {
   }
 
   function onFirstGesture() {
-    audio.play().then(function () {
+    try {
       setMuted(false);
-      updateMusicUI();
-      document.removeEventListener('click', onFirstGesture);
-      document.removeEventListener('touchstart', onFirstGesture);
-    }).catch(function (error) {
-      console.warn('Intento de reproducción tras gesto falló:', error);
-    });
+      var attempt = audio.play();
+      if (attempt !== undefined) {
+        attempt.then(function () {
+          updateMusicUI();
+        }).catch(function (error) {
+          console.warn('Falló reproducción tras gesto:', error);
+        });
+      }
+    } catch (error) {
+      console.warn('Error onFirstGesture:', error);
+    }
   }
 
   function tryAutoPlay() {
     setMuted(true);
+    audio.load();
     var attempt = audio.play();
     if (attempt !== undefined) {
       attempt.then(function () {
@@ -245,8 +253,12 @@ function initMusicAutoplay() {
 
   if (document.readyState === 'complete' || document.readyState === 'interactive') {
     tryAutoPlay();
+    setTimeout(tryAutoPlay, 300);
   } else {
-    document.addEventListener('DOMContentLoaded', tryAutoPlay);
+    document.addEventListener('DOMContentLoaded', function () {
+      tryAutoPlay();
+      setTimeout(tryAutoPlay, 300);
+    });
   }
 }
 

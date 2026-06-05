@@ -193,30 +193,57 @@ function startIOSAnimations() {
     });
   }
 
-  if (typeof window.IntersectionObserver !== 'undefined') {
-    var options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.15
-    };
+  function isElementInViewport(el) {
+    var rect = el.getBoundingClientRect();
+    return rect.top < window.innerHeight * 0.85 && rect.bottom > 0;
+  }
 
-    var observer = new IntersectionObserver(function (entries, obs) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        animateElement(entry.target);
-        obs.unobserve(entry.target);
-      });
-    }, options);
+  function setupAnimationObservers(items) {
+    var animated = new WeakSet();
 
-    var items = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
-    for (var i = 0; i < items.length; i++) {
-      observer.observe(items[i]);
+    function markVisibleItems() {
+      for (var i = 0; i < items.length; i++) {
+        if (animated.has(items[i])) continue;
+        if (isElementInViewport(items[i])) {
+          animateElement(items[i]);
+          animated.add(items[i]);
+        }
+      }
     }
-  } else {
-    var allItems = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
-    for (var j = 0; j < allItems.length; j++) {
-      animateElement(allItems[j]);
+
+    if (typeof window.IntersectionObserver !== 'undefined') {
+      var options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15
+      };
+
+      var observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          animateElement(entry.target);
+          animated.add(entry.target);
+          obs.unobserve(entry.target);
+        });
+      }, options);
+
+      for (var i = 0; i < items.length; i++) {
+        observer.observe(items[i]);
+      }
+
+      window.addEventListener('scroll', markVisibleItems);
+      window.addEventListener('resize', markVisibleItems);
+      setTimeout(markVisibleItems, 200);
+    } else {
+      markVisibleItems();
+      window.addEventListener('scroll', markVisibleItems);
+      window.addEventListener('resize', markVisibleItems);
     }
+  }
+
+  var items = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
+  if (items.length > 0) {
+    setupAnimationObservers(items);
   }
 }
 
