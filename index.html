@@ -389,7 +389,7 @@
 <body>
 
   <!-- Música con reproducción automática forzada -->
-  <audio id="bgMusic" loop preload="auto">
+  <audio id="bgMusic" loop preload="auto" playsinline>
     <source src="music/song.mp3.mp3" type="audio/mpeg">
   </audio>
   <button id="musicToggle" class="music-toggle" aria-label="Reproducir música">
@@ -430,7 +430,7 @@
           <div class="modal-section">
             <h3>Nuestra Recepción</h3>
             <p>28 de noviembre, después de la ceremonia<br>Salón de Eventos Jardín Ámate</p>
-            <p>La celebración se extiende hasta las 3:00 am. ¡A disfrutar juntos!</p>
+            <p>La celebración se extiende hasta las 3:00 am. </p>
           </div>
         </div>
       </div>
@@ -537,29 +537,42 @@ Cualquier otro detalle que nazca de su generosidad y corazón será recibido con
 
     function forceAutoPlay() {
       if (!music) return;
-      
-      const playPromise = music.play();
-      if (playPromise !== undefined) {
-        playPromise.then(() => {
+
+      // Some Android browsers only allow autoplay if media is muted first.
+      // Try muted play, then unmute on user gesture if possible.
+      try { music.muted = true; } catch (e) {}
+      const attempt = music.play();
+      if (attempt !== undefined) {
+        attempt.then(() => {
+          // playback started muted; show play icon so user can unmute
           musicStarted = true;
           musicIcon.innerHTML = '⏸';
           musicToggle.setAttribute('aria-label', 'Pausar música');
-          console.log('🎵 Música iniciada automáticamente');
+          // allow unmute on first user interaction
+          const unmuteOnGesture = function () {
+            try { music.muted = false; } catch (e) {}
+            document.removeEventListener('click', unmuteOnGesture);
+            document.removeEventListener('touchstart', unmuteOnGesture);
+          };
+          document.addEventListener('click', unmuteOnGesture, { once: true });
+          document.addEventListener('touchstart', unmuteOnGesture, { once: true });
+          console.log('🎵 Música iniciada (muted start)');
         }).catch((error) => {
           console.log('Autoreproducción bloqueada:', error);
+          // fall back to waiting for an explicit gesture
           musicIcon.innerHTML = '▶';
           musicToggle.setAttribute('aria-label', 'Reproducir música');
-          
+
           const startMusic = function() {
             music.play().then(() => {
               musicStarted = true;
               musicIcon.innerHTML = '⏸';
               musicToggle.setAttribute('aria-label', 'Pausar música');
-            }).catch(e => console.log('Error al reproducir'));
+            }).catch(e => console.log('Error al reproducir', e));
             document.removeEventListener('click', startMusic);
             document.removeEventListener('touchstart', startMusic);
           };
-          
+
           document.addEventListener('click', startMusic);
           document.addEventListener('touchstart', startMusic);
         });

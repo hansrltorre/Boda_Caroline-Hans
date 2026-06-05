@@ -261,3 +261,70 @@ $(document).ready(function () {
     }, 200);
   });
 });
+
+// =========================
+// INTERSECTION OBSERVER FALLBACK (Safari / iOS reliability)
+// =========================
+(function () {
+  if (typeof window.IntersectionObserver === 'undefined') return;
+
+  var animated = new WeakSet();
+
+  var observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.15
+  };
+
+  var animMap = {
+    'wp1': 'fadeInLeft',
+    'wp2': 'fadeInUp',
+    'wp3': 'fadeInRight',
+    'wp4': 'fadeInUp',
+    'wp5': 'fadeInLeft',
+    'wp6': 'fadeInUp',
+    'wp7': 'fadeInRight',
+    'wp8': 'fadeInUp',
+    'wp9': 'fadeInLeft',
+    'wp10': 'fadeInUp',
+    'wp11': 'fadeInRight',
+    'wp12': 'fadeInUp'
+  };
+
+  function observeAnimatedEntries(entries, obs) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      var el = entry.target;
+      if (animated.has(el)) {
+        obs.unobserve(el);
+        return;
+      }
+      // find which wp class it has
+      Object.keys(animMap).some(function (k) {
+        if (el.classList.contains(k)) {
+          el.classList.add('animated', animMap[k]);
+          animated.add(el);
+          obs.unobserve(el);
+          return true;
+        }
+        return false;
+      });
+    });
+  }
+
+  var io = new IntersectionObserver(observeAnimatedEntries, observerOptions);
+
+  function initObserverFallback() {
+    var all = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (!animated.has(el)) io.observe(el);
+    }
+  }
+
+  // Run once and also on resize (in case layout changes)
+  initObserverFallback();
+  window.addEventListener('resize', function () {
+    setTimeout(initObserverFallback, 250);
+  });
+})();
