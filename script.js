@@ -1,7 +1,7 @@
 // =========================
 // CONFIGURACIÓN
 // =========================
-var GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxftMlepYXqjQFjUSWUlqiuYBtixF1v-0-KejYGgtC_9FyxHmmTOdYsgf5FfZkY09s4rg/exec";
+const GOOGLE_SHEETS_API_URL = "https://script.google.com/macros/s/AKfycbxftMlepYXqjQFjUSWUlqiuYBtixF1v-0-KejYGgtC_9FyxHmmTOdYsgf5FfZkY09s4rg/exec";
 
 // =========================
 // SANITIZE MEJORADO
@@ -17,15 +17,15 @@ function sanitize(str) {
 // =========================
 // ELEMENTOS
 // =========================
-var rsvpForm = document.getElementById('rsvpForm');
-var formStatus = document.getElementById('formStatus');
-var submitBtn = document.getElementById('submitBtn');
-var rompehielosCheck = document.getElementById('rompehielosCheck');
-var bodaCheck = document.getElementById('bodaCheck');
-var icebreakerDiv = document.getElementById('icebreakerCheckbox');
-var weddingDiv = document.getElementById('weddingCheckbox');
+const rsvpForm = document.getElementById('rsvpForm');
+const formStatus = document.getElementById('formStatus');
+const submitBtn = document.getElementById('submitBtn');
+const rompehielosCheck = document.getElementById('rompehielosCheck');
+const bodaCheck = document.getElementById('bodaCheck');
+const icebreakerDiv = document.getElementById('icebreakerCheckbox');
+const weddingDiv = document.getElementById('weddingCheckbox');
 
-var isSubmitting = false;
+let isSubmitting = false;
 
 // =========================
 // CHECKBOX STYLE
@@ -54,7 +54,7 @@ if (rompehielosCheck && bodaCheck) {
 // EVENTOS
 // =========================
 function getSelectedEvents() {
-  var selected = [];
+  const selected = [];
   if (rompehielosCheck && rompehielosCheck.checked) selected.push('🍽️ Cena Rompehielos');
   if (bodaCheck && bodaCheck.checked) selected.push('💒 Ceremonia y Recepción');
   return selected;
@@ -79,10 +79,10 @@ function showMessage(text, isError) {
 // =========================
 // GOOGLE SHEETS (VERSIÓN ESTABLE)
 // =========================
-var RSVP_BACKUP_KEY = 'wedding_rsvp_backup';
+const RSVP_BACKUP_KEY = 'wedding_rsvp_backup';
 
 function saveRsvpBackup(data) {
-  var backup = JSON.parse(localStorage.getItem(RSVP_BACKUP_KEY) || '[]');
+  const backup = JSON.parse(localStorage.getItem(RSVP_BACKUP_KEY) || '[]');
   backup.push(data);
   localStorage.setItem(RSVP_BACKUP_KEY, JSON.stringify(backup));
 }
@@ -113,7 +113,7 @@ function saveToGoogleSheets(data) {
 // =========================
 // SELECT ASISTENCIA
 // =========================
-var asistenciaSelect = document.getElementById('asistencia');
+const asistenciaSelect = document.getElementById('asistencia');
 if (asistenciaSelect) {
   asistenciaSelect.addEventListener('change', function (e) {
     if (e.target.value === 'No podré asistir') {
@@ -134,39 +134,39 @@ if (rsvpForm) {
     if (isSubmitting) return;
     isSubmitting = true;
 
-    var asistencia = document.getElementById('asistencia').value;
-    var selectedEvents = getSelectedEvents();
+const asistencia = document.getElementById('asistencia').value;
+  const selectedEvents = getSelectedEvents();
 
-    if (asistencia === 'Sí asistiré' && selectedEvents.length === 0) {
-      showMessage('❌ Selecciona al menos un evento.', true);
-      isSubmitting = false;
-      return;
-    }
+  if (asistencia === 'Sí asistiré' && selectedEvents.length === 0) {
+    showMessage('❌ Selecciona al menos un evento.', true);
+    isSubmitting = false;
+    return;
+  }
 
-    var nombre = sanitize(document.getElementById('nombre').value);
-    var email = sanitize(document.getElementById('email').value);
-    var telefono = sanitize(document.getElementById('telefono').value);
-    var alergias = sanitize(document.getElementById('alergias').value);
+  const nombre = sanitize(document.getElementById('nombre').value);
+  const email = sanitize(document.getElementById('email').value);
+  const telefono = sanitize(document.getElementById('telefono').value);
+  const alergias = sanitize(document.getElementById('alergias').value);
 
-    if (!nombre || !email) {
-      showMessage('❌ Completa nombre y correo.', true);
-      isSubmitting = false;
-      return;
-    }
+  if (!nombre || !email) {
+    showMessage('❌ Completa nombre y correo.', true);
+    isSubmitting = false;
+    return;
+  }
 
-    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      showMessage('❌ Correo inválido.', true);
-      isSubmitting = false;
-      return;
-    }
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailPattern.test(email)) {
+    showMessage('❌ Correo inválido.', true);
+    isSubmitting = false;
+    return;
+  }
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span class="loader"></span> Guardando...';
-    }
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loader"></span> Guardando...';
+  }
 
-    var reservationData = {
+  const reservationData = {
       fechaRegistro: new Date().toLocaleString('es-MX', { timeZone: 'America/Mexico_City' }),
       nombre: nombre,
       email: email,
@@ -184,6 +184,11 @@ if (rsvpForm) {
         if (rompehielosCheck) rompehielosCheck.checked = false;
         if (bodaCheck) bodaCheck.checked = false;
         updateCheckboxStyle();
+        // Al enviar con éxito, regresar al menú inicial (hero)
+        try {
+          if (heroSection) heroSection.scrollIntoView({ behavior: 'smooth' });
+          else window.scrollTo({ top: 0, behavior: 'smooth' });
+        } catch (e) { /* no bloquear en caso de error */ }
         console.log('✅ Enviado:', reservationData);
       } else {
         saveRsvpBackup(reservationData);
@@ -203,80 +208,33 @@ if (rsvpForm) {
   });
 }
 
-// =========================
-// ANIMACIONES CON WAYPOINTS
-// =========================
-$(document).ready(function () {
-  var waypointMap = [
-    { sel: '.wp1', anim: 'fadeInLeft' },
-    { sel: '.wp2', anim: 'fadeInUp' },
-    { sel: '.wp3', anim: 'fadeInRight' },
-    { sel: '.wp4', anim: 'fadeInUp' },
-    { sel: '.wp5', anim: 'fadeInLeft' },
-    { sel: '.wp6', anim: 'fadeInUp' },
-    { sel: '.wp7', anim: 'fadeInRight' },
-    { sel: '.wp8', anim: 'fadeInUp' },
-    { sel: '.wp9', anim: 'fadeInLeft' },
-    { sel: '.wp10', anim: 'fadeInUp' },
-    { sel: '.wp11', anim: 'fadeInRight' },
-    { sel: '.wp12', anim: 'fadeInUp' }
-  ];
-
-  function bindWaypoints() {
-    var wpOffset = $(window).width() <= 700 ? '90%' : '75%';
-    waypointMap.forEach(function (item) {
-      $(item.sel).waypoint(function () {
-        try {
-          $(this.element).addClass('animated ' + item.anim);
-        } catch (e) {
-          console.warn('Waypoint callback error for', item.sel, e);
-        }
-      }, { offset: wpOffset, triggerOnce: true });
-    });
-  }
-
-  function destroyWaypoints() {
-    waypointMap.forEach(function (item) {
-      try {
-        $(item.sel).waypoint('destroy');
-      } catch (e) {
-        // ignore if none exist
-      }
-    });
-  }
-
-  function initWaypoints() {
-    destroyWaypoints();
-    bindWaypoints();
-  }
-
-  initWaypoints();
-
-  var resizeTimer = null;
-  $(window).on('resize', function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () {
-      initWaypoints();
-      console.log('Waypoints re-initialized after resize.');
-    }, 200);
+// Botón para volver al inicio desde la sección RSVP
+const rsvpBackBtn = document.getElementById('rsvpBackBtn');
+if (rsvpBackBtn) {
+  rsvpBackBtn.addEventListener('click', function () {
+    try {
+      if (heroSection) heroSection.scrollIntoView({ behavior: 'smooth' });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) { console.log(e); }
   });
-});
+}
 
 // =========================
-// INTERSECTION OBSERVER FALLBACK (Safari / iOS reliability)
+// ANIMACIONES DE SCROLL
 // =========================
+// IntersectionObserver se encarga de animar los elementos .wp1..wp12
 (function () {
   if (typeof window.IntersectionObserver === 'undefined') return;
 
-  var animated = new WeakSet();
+  const animated = new WeakSet();
 
-  var observerOptions = {
+  const observerOptions = {
     root: null,
     rootMargin: '0px',
     threshold: 0.15
   };
 
-  var animMap = {
+  const animMap = {
     'wp1': 'fadeInLeft',
     'wp2': 'fadeInUp',
     'wp3': 'fadeInRight',
@@ -294,7 +252,7 @@ $(document).ready(function () {
   function observeAnimatedEntries(entries, obs) {
     entries.forEach(function (entry) {
       if (!entry.isIntersecting) return;
-      var el = entry.target;
+      const el = entry.target;
       if (animated.has(el)) {
         obs.unobserve(el);
         return;
@@ -312,12 +270,11 @@ $(document).ready(function () {
     });
   }
 
-  var io = new IntersectionObserver(observeAnimatedEntries, observerOptions);
+  const io = new IntersectionObserver(observeAnimatedEntries, observerOptions);
 
-  function initObserverFallback() {
-    var all = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
-    for (var i = 0; i < all.length; i++) {
-      var el = all[i];
+    function initObserverFallback() {
+      const all = document.querySelectorAll('.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12');
+      for (const el of all) {
       if (!animated.has(el)) io.observe(el);
     }
   }
@@ -328,3 +285,167 @@ $(document).ready(function () {
     setTimeout(initObserverFallback, 250);
   });
 })();
+
+// =========================
+// MÚSICA - REPRODUCCIÓN AUTOMÁTICA GARANTIZADA
+// =========================
+const music = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+const musicIcon = document.getElementById('musicIcon');
+let musicStarted = false;
+
+function forceAutoPlay() {
+  if (!music) return;
+
+  try { music.muted = true; } catch (e) {}
+  const attempt = music.play();
+  if (attempt !== undefined) {
+    attempt.then(() => {
+      musicStarted = true;
+      musicIcon.innerHTML = '⏸';
+      musicToggle.setAttribute('aria-label', 'Pausar música');
+      const unmuteOnGesture = function () {
+        try { music.muted = false; } catch (e) {}
+        document.removeEventListener('click', unmuteOnGesture);
+        document.removeEventListener('touchstart', unmuteOnGesture);
+      };
+      document.addEventListener('click', unmuteOnGesture, { once: true });
+      document.addEventListener('touchstart', unmuteOnGesture, { once: true });
+      console.log('🎵 Música iniciada (muted start)');
+    }).catch((error) => {
+      console.log('Autoreproducción bloqueada:', error);
+      musicIcon.innerHTML = '▶';
+      musicToggle.setAttribute('aria-label', 'Reproducir música');
+
+      const startMusic = function() {
+        music.play().then(() => {
+          musicStarted = true;
+          musicIcon.innerHTML = '⏸';
+          musicToggle.setAttribute('aria-label', 'Pausar música');
+        }).catch(e => console.log('Error al reproducir', e));
+        document.removeEventListener('click', startMusic);
+        document.removeEventListener('touchstart', startMusic);
+      };
+
+      document.addEventListener('click', startMusic);
+      document.addEventListener('touchstart', startMusic);
+    });
+  }
+}
+
+forceAutoPlay();
+
+if (musicToggle && music) {
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if (music.paused) {
+      music.play().then(() => {
+        musicStarted = true;
+        musicIcon.innerHTML = '⏸';
+        musicToggle.setAttribute('aria-label', 'Pausar música');
+      }).catch(err => console.log('Error:', err));
+    } else {
+      music.pause();
+      musicIcon.innerHTML = '▶';
+      musicToggle.setAttribute('aria-label', 'Reproducir música');
+    }
+  });
+}
+
+if (music) {
+  music.addEventListener('play', () => {
+    musicIcon.innerHTML = '⏸';
+    musicToggle.setAttribute('aria-label', 'Pausar música');
+  });
+  music.addEventListener('pause', () => {
+    musicIcon.innerHTML = '▶';
+    musicToggle.setAttribute('aria-label', 'Reproducir música');
+  });
+}
+
+// =========================
+// MOVIMIENTO EN EL EXPLORADOR
+// =========================
+const heroSection = document.querySelector('.hero');
+const heroOverlay = document.querySelector('.hero .overlay');
+const heroImage = document.querySelector('.hero img');
+let motionFrame = null;
+let pointerX = 0;
+let pointerY = 0;
+
+function updateHeroMotion() {
+  if (!heroSection || !heroOverlay || !heroImage) return;
+  const rect = heroSection.getBoundingClientRect();
+  const offsetX = ((pointerX - rect.left) / rect.width - 0.5) * 18;
+  const offsetY = ((pointerY - rect.top) / rect.height - 0.5) * 18;
+
+  heroOverlay.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0)`;
+  heroImage.style.transform = `translate3d(${offsetX * 0.4}px, ${offsetY * 0.4}px, 0) rotate(${offsetX * 0.08}deg)`;
+  motionFrame = null;
+}
+
+if (heroSection && heroOverlay && heroImage) {
+  heroSection.addEventListener('mousemove', (e) => {
+    pointerX = e.clientX;
+    pointerY = e.clientY;
+    if (!motionFrame) motionFrame = requestAnimationFrame(updateHeroMotion);
+  });
+  heroSection.addEventListener('mouseleave', () => {
+    if (heroOverlay) heroOverlay.style.transform = '';
+    if (heroImage) heroImage.style.transform = '';
+  });
+}
+
+// =========================
+// MODAL AGENDA
+// =========================
+const openAgendaBtn = document.getElementById('openAgendaModalBtn');
+const agendaModal = document.getElementById('agendaModal');
+const closeAgendaBtn = document.getElementById('closeAgendaModal');
+
+if (openAgendaBtn && agendaModal && closeAgendaBtn) {
+  openAgendaBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    agendaModal.style.display = 'flex';
+  });
+
+  closeAgendaBtn.addEventListener('click', () => {
+    agendaModal.style.display = 'none';
+  });
+
+  agendaModal.addEventListener('click', (e) => {
+    if (e.target === agendaModal) agendaModal.style.display = 'none';
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && agendaModal.style.display === 'flex') {
+      agendaModal.style.display = 'none';
+    }
+  });
+}
+
+// =========================
+// COUNTDOWN
+// =========================
+const weddingDate = new Date("Nov 27, 2026 00:00:00").getTime();
+const timer = setInterval(() => {
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+  
+  if (distance < 0) {
+    clearInterval(timer);
+    const countdownDiv = document.querySelector(".countdown");
+    if (countdownDiv) countdownDiv.innerHTML = "<h2>¡Llegó el gran día!</h2>";
+    return;
+  }
+  
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  document.getElementById("days").innerHTML = days.toString().padStart(2, '0');
+  document.getElementById("hours").innerHTML = hours.toString().padStart(2, '0');
+  document.getElementById("minutes").innerHTML = minutes.toString().padStart(2, '0');
+  document.getElementById("seconds").innerHTML = seconds.toString().padStart(2, '0');
+}, 1000);
