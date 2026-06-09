@@ -202,61 +202,6 @@ h1,h2,h3{
   margin-bottom:30px;
 }
 
-.cards{
-  display:flex;
-  gap:30px;
-  flex-wrap:wrap;
-  justify-content:center;
-  margin-top:30px;
-}
-
-.card{
-  background:#f9f7f3;
-  padding:32px 24px;
-  border-radius:18px;
-  width:300px;
-  box-shadow:0 4px 18px rgba(122,92,62,0.08);
-  text-align:left;
-  color:#4d3c2a;
-  font-size:1.08rem;
-  margin-bottom:20px;
-}
-
-.card h3{
-  margin-bottom:14px;
-  font-size:1.4rem;
-  color:#7a5c3e;
-}
-
-.card a{
-  color:#7a5c3e;
-  text-decoration:underline;
-  font-weight:500;
-}
-
-.story p {
-  max-width:700px;
-  margin:18px auto;
-  line-height:1.7;
-  color:#4d3c2a;
-}
-
-.gallery{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:18px;
-  background:#f9f7f3;
-  padding:40px 0;
-}
-
-.gallery img{
-  width:100%;
-  height:320px;
-  object-fit:cover;
-  border-radius:18px;
-  box-shadow:0 2px 12px rgba(122,92,62,0.07);
-}
-
 .story,
 .event,
 .gifts,
@@ -315,11 +260,18 @@ h1,h2,h3{
 }
 
 .dresscode img{
-  width:75px;
+  width:140px;
+  max-width:100%;
   height:auto;
   margin:20px auto;
   display:block;
   border-radius:20px;
+}
+
+@media(max-width:700px){
+  .dresscode img{
+    width:120px;
+  }
 }
 
 .gift-box{
@@ -381,4 +333,80 @@ footer{
   .overlay{
     max-width:95vw;
   }
+}
+
+/* Ensure waypoint elements are initially hidden so animations are visible on iOS */
+.wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12 {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* When Animate.css 'animated' class is added, ensure element becomes visible and uses fill-mode */
+.animated {
+  opacity: 1 !important;
+  visibility: visible !important;
+  -webkit-animation-fill-mode: both !important;
+  animation-fill-mode: both !important;
+}
+
+/* Provide a slight hardware-acceleration hint for Safari */
+.animated, .wp1, .wp2, .wp3, .wp4, .wp5, .wp6, .wp7, .wp8, .wp9, .wp10, .wp11, .wp12 {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+/* Moved from inline HTML styles */
+.hero .overlay img {
+  max-width: 180px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+.hero .overlay h2 {
+  margin: 20px 0 0 0;
+}
+.countdown-section {
+  margin-top: 30px;
+}
+#agendaModal {
+  display: none;
+}
+.agenda-button-row {
+  text-align: center;
+  margin-top: 30px;
+}
+#openAgendaModalBtn {
+  background: #b6846e;
+}
+.card.wp9 p:last-child {
+  margin-top: 16px;
+  font-size: 0.98rem;
+  color: #5b4e46;
+}
+.card.wp10 .btn {
+  margin-top: 10px;
+}
+.rsvp > p,
+.rsvp > h2 {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 20px;
+}
+.form-message {
+  display: none;
+}
+
+/* RSVP actions (back button) */
+.rsvp .rsvp-actions {
+  margin-top: 12px;
+  text-align: center;
+}
+.btn.btn-outline {
+  background: transparent;
+  color: #7a5c3e;
+  border: 1px solid rgba(122,92,62,0.18);
+  box-shadow: none;
+}
+.btn.btn-outline:hover {
+  background: rgba(122,92,62,0.06);
 }
